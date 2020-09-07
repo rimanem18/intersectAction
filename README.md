@@ -1,2 +1,2 @@
-# intersectAddClass
-特定の要素と交差したらその要素にクラスを付与する関数
+# intersectAction
+特定の要素と交差したら引数に渡された処理が実行されます
