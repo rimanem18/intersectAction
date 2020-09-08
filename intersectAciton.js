@@ -1,4 +1,3 @@
-
 /**
  * 
  * @param NodeList elements 
@@ -7,14 +6,11 @@
  */
 function intersectAction(elements, callback, observerOptions) {
 
-	// UA 取得
-	const userAgent = window.navigator.userAgent.toLowerCase();
-
 	// option が指定されていなければ初期値を設定
 	if (observerOptions === undefined) {
 		observerOptions = {
 			root: null,
-			rootMargin: '-30%',
+			rootMargin: '0px',
 			threshold: 0
 		}
 	}
@@ -32,10 +28,7 @@ function intersectAction(elements, callback, observerOptions) {
 	 */
 	function doIntersect(entries) {
 		Array.prototype.forEach.call(entries, function (entry) {
-			if (entry.isIntersecting) {
-				// 交差したら実行
-				callback(entry.target);
-			}
+			callback(entry.target, entry.isIntersecting);
 		})
 	}
 
