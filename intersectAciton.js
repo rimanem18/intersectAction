@@ -4,12 +4,7 @@
  * @param Function callback 
  * @param Dictionary observerOpsions
  */
-function intersectAction(elements, callback,
-	observerOptions = {
-		root: null,
-		rootMargin: "-30%",
-		threshold: 0
-	}) {
+function intersectAction(elements, callback, observerOptions) {
 
 	// UA 取得
 	const userAgent = window.navigator.userAgent.toLowerCase();
@@ -23,6 +18,16 @@ function intersectAction(elements, callback,
 			return;
 		})
 	}
+
+	// option が指定されていなければ初期値を設定
+	if (observerOptions === undefined) {
+		observerOptions = {
+			root: null,
+			rootMargin: '-30%',
+			threshold: 0
+		}
+	}
+	
 	const observer = new IntersectionObserver(doIntersect, observerOptions);
 
 	// それぞれの element を監視する
