@@ -1,3 +1,4 @@
+
 /**
  * 
  * @param NodeList elements 
@@ -9,16 +10,6 @@ function intersectAction(elements, callback, observerOptions) {
 	// UA 取得
 	const userAgent = window.navigator.userAgent.toLowerCase();
 
-	// IE の場合は IntersectionObserver が使えないので
-	// そのまま実行してリターン
-	if (userAgent.indexOf('msie') != -1 ||
-		userAgent.indexOf('trident') != -1) {
-		Array.prototype.forEach.call(elements, function (element) {
-			callback(element);
-			return;
-		})
-	}
-
 	// option が指定されていなければ初期値を設定
 	if (observerOptions === undefined) {
 		observerOptions = {
@@ -27,11 +18,11 @@ function intersectAction(elements, callback, observerOptions) {
 			threshold: 0
 		}
 	}
-	
+
 	const observer = new IntersectionObserver(doIntersect, observerOptions);
 
 	// それぞれの element を監視する
-	elements.forEach(function (element) {
+	Array.prototype.forEach.call(elements, function (element) {
 		observer.observe(element);
 	});
 
@@ -40,12 +31,12 @@ function intersectAction(elements, callback, observerOptions) {
 	 * @param entries
 	 */
 	function doIntersect(entries) {
-		entries.forEach(function (entry) {
+		Array.prototype.forEach.call(entries, function (entry) {
 			if (entry.isIntersecting) {
 				// 交差したら実行
 				callback(entry.target);
 			}
-		});
+		})
 	}
 
 }
