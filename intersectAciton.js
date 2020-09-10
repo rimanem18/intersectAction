@@ -1,10 +1,30 @@
 /**
+ * @author Rimane
+ * @license MIT
+ * @url https://github.com/rimanem18/intersectAction
  * 
- * @param NodeList elements 
- * @param Function callback 
- * @param Dictionary observerOpsions
+ * @param {NodeList|HTMLElement|jQueryObject} elements 交差を監視したい要素
+ * @param {Function} callback  交差時に実行したい関数
+ * @param {IntersectionObserver Options} observerOptions IntersectionObserver のオプション
  */
 function intersectAction(elements, callback, observerOptions) {
+	'use strict';
+
+	// 省略用
+	const forEach = Array.prototype.forEach;
+	const toString = Object.prototype.toString;
+
+	// 型厳密チェック用
+	function typeOf(obj) {
+		if (window.jQuery !== undefined && obj instanceof jQuery) {
+			return 'jquery';
+		} else {
+			return toString.call(obj).slice(8, -1).toLowerCase();
+		}
+	}
+
+	// 引数の型を String 型で取得
+	const elementsType = typeOf(elements);
 
 	// option が指定されていなければ初期値を設定
 	if (observerOptions === undefined) {
@@ -15,21 +35,43 @@ function intersectAction(elements, callback, observerOptions) {
 		}
 	}
 
+	// observer をインスタンス化
 	const observer = new IntersectionObserver(doIntersect, observerOptions);
 
-	// それぞれの element を監視する
-	Array.prototype.forEach.call(elements, function (element) {
-		observer.observe(element);
-	});
+	// 要素を監視する
+	if (elementsType === 'nodelist') {
+		// nodelist なら forEach で回して全部監視
+		forEach.call(elements, function (element) {
+			observer.observe(element);
+		});
+	} else if (elementsType === 'htmlelement') {
+		// htmlelement なら一つをそのまま監視
+		observer.observe(elements);
+	} else if (elementsType === 'jquery') {
+		// jQuery オブジェクトなら DOM に変換して監視
+		const doms = elements.get();
+		forEach.call(doms, function (dom) {
+			observer.observe(dom);
+		})
+	}
 
 	/**
 	 * 交差したときに呼び出す関数
 	 * @param entries
 	 */
 	function doIntersect(entries) {
-		Array.prototype.forEach.call(entries, function (entry) {
-			callback(entry.target, entry.isIntersecting);
-		})
+
+		if (elementsType === 'jquery') {
+			// jQuery オブジェクトが渡された場合は jQuery として振る舞う
+			forEach.call(entries, function (entry) {
+				callback(jQuery(entry.target), entry.isIntersecting);
+			})
+		} else {
+			// そうでない場合は vanilla として振る舞う
+			forEach.call(entries, function (entry) {
+				callback(entry.target, entry.isIntersecting);
+			})
+		}
 	}
 
-}
+};

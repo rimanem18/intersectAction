@@ -13,7 +13,7 @@
 		}
 	})
 
-交差していないときに isShow というクラスを除去したい場合は、以下に else 文を追加することで実現できます。
+交差していないときに isShow というクラスを除去したい場合は、else 文を追加することで実現できます。
 
 	const fadeInUpAll = document.querySelectorAll('.fadeInUp');
 	intersectAction(fadeInUpAll, function (element, isIntersecting) {
@@ -26,16 +26,28 @@
 
 IntersectionObserver のオプションを使いたい場合は、第3引数に連想配列にして指定してください。  
 
-	observerOptions = {
+	const observerOptions = {
 		root: null,
 		rootMargin: '-30%',
 		threshold: 0
 	}
-	intersectAction(fadeInUpAll, function (element, isIntersecting) {
+	const fadeInUpAll = document.querySelectorAll('.fadeInUp');
+		intersectAction(fadeInUpAll, function (element, isIntersecting) {
 		if(isIntersecting){
 			element.classList.add('isShow');
 		}
 	}, observerOptions)
+
+この関数は Vanilla JS のためのものですが、jQuery にも対応しています。  
+jQuery を第1引数として渡した場合、jQuery としての振る舞いをおこないます。  
+
+	const fadeInUpAll = $('.fadeInUp');
+	intersectAction(fadeInUpAll, function (element, isIntersecting) {
+		if (isIntersecting) {
+			element.addClass('isShow');
+		}
+	})
+
 
 ## 注意
 IntersectionObserver を使用しているため、IE などでは動作しません。IE などで実行するには Polyfill を読み込む必要があります。  
