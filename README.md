@@ -51,6 +51,12 @@ jQuery を第1引数として渡した場合、jQuery としての振る舞い�
 	})
 
 
+## 使用例
+- 画面内に入った時点でパララックス効果を付与して動きのある Web サイトを演出する。
+- 画面内に入った時点、あるいは入る直前で画像を遅延読み込みし、ページの表示速度を早くする。
+ - 画面最下部に到達したかどうかを監視し、 Twitter のような無限スクロールを実現する。
+ - etc...
+
 ## 注意
 IntersectionObserver を使用しているため、IE などでは動作しません。IE などで実行するには Polyfill を読み込む必要があります。  
 https://github.com/w3c/IntersectionObserver/tree/master/polyfill
