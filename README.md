@@ -25,6 +25,8 @@
 	})
 
 IntersectionObserver のオプションを使いたい場合は、第3引数に連想配列にして指定してください。  
+IntersectionObserver のオプションはこのページから確認できます。
+https://developer.mozilla.org/ja/docs/Web/API/Intersection_Observer_API
 
 	const observerOptions = {
 		root: null,
