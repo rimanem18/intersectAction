@@ -50,6 +50,18 @@ jQuery を第1引数として渡した場合、jQuery としての振る舞い�
 		}
 	})
 
+交差の処理を一度きりのものとしたい場合、交差の監視を終了することで実現できます。  
+監視の終了をしたい場合は、渡す関数の第3引数を指定して unobserve メソッドを実行してください。
+
+	const fadeInUpAll = document.querySelectorAll('.fadeInUp');
+		intersectAction(fadeInUpAll, function (element, isIntersecting, observer) {
+		if(isIntersecting){
+			element.classList.add('isShow');
+			observer.unobserve(element);  // 監視の終了
+		}
+	})
+
+
 
 ## 使用例
 - 画面内に入った時点でパララックス効果を付与して動きのある Web サイトを演出する。

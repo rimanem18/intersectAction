@@ -9,6 +9,7 @@
  */
 function intersectAction(elements, callback, observerOptions) {
 	'use strict';
+	
 
 	// 省略用
 	const forEach = Array.prototype.forEach;
@@ -27,7 +28,7 @@ function intersectAction(elements, callback, observerOptions) {
 	const elementsType = typeOf(elements);
 
 	// option が指定されていなければ初期値を設定
-	if (observerOptions === undefined) {
+	if (observerOptions === undefined || observerOptions === null) {
 		observerOptions = {
 			root: null,
 			rootMargin: '0px',
@@ -66,12 +67,12 @@ function intersectAction(elements, callback, observerOptions) {
 		if (elementsType === 'jquery') {
 			// jQuery オブジェクトが渡された場合は jQuery として振る舞う
 			forEach.call(entries, function (entry) {
-				callback(jQuery(entry.target), entry.isIntersecting);
+				callback(jQuery(entry.target), entry.isIntersecting, observer);
 			})
 		} else {
 			// そうでない場合は vanilla として複数回処理
 			forEach.call(entries, function (entry) {
-				callback(entry.target, entry.isIntersecting);
+				callback(entry.target, entry.isIntersecting, observer);
 			})
 		}
 	}
